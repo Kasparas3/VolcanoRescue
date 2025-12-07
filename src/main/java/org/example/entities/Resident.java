@@ -2,13 +2,14 @@ package org.example.entities;
 
 import org.example.model.Position;
 
-public class Resident {
+
+public abstract class Resident {
     private final int id;
     private Position pos;
     private boolean alive = true;
     private boolean evacuated = false;
 
-    public Resident(int id, Position start) {
+    protected Resident(int id, Position start) {
         this.id = id;
         this.pos = start;
     }
@@ -23,12 +24,16 @@ public class Resident {
             this.pos = next;
         }
     }
+    public void die() { this.alive = false; }
+    public void evacuate() { this.evacuated = true; }
 
-    public void die() {
-        this.alive = false;
-    }
+    public int stepsPerTick() { return 1; }
 
-    public void evacuate() {
-        this.evacuated = true;
+    public boolean shouldMoveOnTick(int tick) { return true; }
+
+    @Override
+    public String toString() {
+        return "Resident{id=%d, pos=%s, alive=%s, evacuated=%s}"
+                .formatted(id, pos, alive, evacuated);
     }
 }

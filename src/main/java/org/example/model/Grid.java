@@ -64,4 +64,11 @@ public class Grid {
         TileType t = get(p);
         return t == TileType.ROAD || t == TileType.HOUSE || t == TileType.SAFE;
     }
+
+    public boolean isPassableForLava(Position p) {
+        if (!inBounds(p)) return false;
+        TileType t = get(p);
+        return t == TileType.ROAD || t == TileType.HOUSE || t == TileType.BLOCKED;
+    }
+
 }

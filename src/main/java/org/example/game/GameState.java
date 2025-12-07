@@ -6,17 +6,22 @@ import org.example.model.Position;
 
 import java.util.*;
 
-public class GameState {
-    public final Grid grid;
-    public final List<Resident> residents = new ArrayList<>();
-    public final Set<Position> lavaFrontier = new HashSet<>();
+public final class GameState {
+    private final Grid grid;
+    private final List<Resident> residents = new ArrayList<>();
+    private final Set<Position> lavaFrontier = new HashSet<>();
+    private int tick = 0;
+    private int actionsLeft = GameConfig.MAX_PLAYER_ACTIONS;
 
-    public int tick = 0;
-    public int actionsLeft = GameConfig.MAX_PLAYER_ACTIONS;
-
-    public GameState(Grid grid) {
-        this.grid = grid;
-    }
+    public GameState(Grid grid){ this.grid=grid; }
+    public Grid grid(){ return grid; }
+    public List<Resident> residents(){ return residents; }
+    public Set<Position> lavaFrontier(){ return lavaFrontier; }
+    public int tick(){ return tick; }
+    public void nextTick(){ tick++; }
+    public int actionsLeft(){ return actionsLeft; }
+    public void consumeAction(){ if (actionsLeft>0) actionsLeft--; }
+    public void addResident(Resident r){ residents.add(r); }
 
     public boolean allEvacuatedOrDead() {
         for (Resident r : residents) {

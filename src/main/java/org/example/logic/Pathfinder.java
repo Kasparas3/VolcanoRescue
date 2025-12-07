@@ -14,14 +14,12 @@ public final class Pathfinder {
         if (grid.inBounds(start) && grid.get(start) == TileType.SAFE) {
             return Collections.emptyList();
         }
-
         ArrayDeque<Position> q = new ArrayDeque<>();
         Map<Position, Position> prev = new HashMap<>();
         Set<Position> visited = new HashSet<>();
 
         q.add(start);
         visited.add(start);
-
         while (!q.isEmpty()) {
             Position cur = q.removeFirst();
 
@@ -36,11 +34,9 @@ public final class Pathfinder {
                 if (grid.get(nb) == TileType.SAFE) {
                     return reconstructPath(prev, start, nb);
                 }
-
                 q.addLast(nb);
             }
         }
-
         return Collections.emptyList();
     }
 

@@ -13,30 +13,27 @@ public final class LavaSpread {
     private LavaSpread() {}
 
     public static void expand(GameState state) {
-        Grid grid = state.grid;
+        Grid grid = state.grid();
 
-        Set<Position> currentFrontier = state.lavaFrontier.isEmpty()
+        Set<Position> currentFrontier = state.lavaFrontier().isEmpty()
                 ? collectAllLava(grid)
-                : new HashSet<>(state.lavaFrontier);
+                : new HashSet<>(state.lavaFrontier());
 
         Set<Position> nextFrontier = new HashSet<>();
 
         for (Position lava : currentFrontier) {
             for (Position nb : grid.neighbors4(lava)) {
-                if (!grid.inBounds(nb)) continue;
+                if (!grid.isPassableForLava(nb)) continue;
 
-                TileType t = grid.get(nb);
-
-                if (t == TileType.ROAD || t == TileType.HOUSE || t == TileType.BLOCKED) {
-                    grid.set(nb, TileType.LAVA);
-                    nextFrontier.add(nb);
-                }
+                grid.set(nb, TileType.LAVA);
+                nextFrontier.add(nb);
             }
         }
 
-        state.lavaFrontier.clear();
-        state.lavaFrontier.addAll(nextFrontier);
+        state.lavaFrontier().clear();
+        state.lavaFrontier().addAll(nextFrontier);
     }
+
 
     private static Set<Position> collectAllLava(Grid grid) {
         Set<Position> all = new HashSet<>();
